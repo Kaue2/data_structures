@@ -103,4 +103,6 @@ impl<T> LinkedList<T> {
             }
         }
     }
+
+    pub fn delete_head() -> Option<T> {}
 }
