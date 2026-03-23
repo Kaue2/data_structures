@@ -47,6 +47,7 @@ impl<T> LinkedList<T> {
         node.next = self.head;
         node.prev = None;
         let node_ptr = NonNull::new(Box::into_raw(node));
+
         match self.head {
             None => self.tail = node_ptr,
             Some(head_ptr) => unsafe { (*head_ptr.as_ptr()).prev = node_ptr },
@@ -216,6 +217,38 @@ where
         match self.next {
             Some(node) => write!(f, "{}, {}", self.val, unsafe { node.as_ref() }),
             None => write!(f, "{}", self.val),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::LinkedList;
+    use std::convert::TryInto;
+
+    #[test]
+    fn insert_at_tail_works() {
+        let mut list = LinkedList::<i32>::new();
+        let second_value = 2;
+        list.insert_at_tail(1);
+        list.insert_at_tail(second_value);
+        println!("linked list is {list}");
+        match list.get(1) {
+            Some(val) => assert_eq!(*val, second_value),
+            None => panic!("Expected to find {second_value} at index 0"),
+        }
+    }
+
+    #[test]
+    fn insert_at_head_works() {
+        let mut list = LinkedList::<i32>::new();
+        let second_value = 2;
+        list.insert_at_head(1);
+        list.insert_at_head(second_value);
+        println!("linked list is {list}");
+        match list.get(0) {
+            Some(val) => assert_eq!(*val, second_value),
+            None => panic!("Expected to find {second_value} at index 0"),
         }
     }
 }
