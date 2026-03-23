@@ -1,1 +1,2 @@
-pub mod linked_list;
+pub mod data_structures;
+pub mod sorting;
